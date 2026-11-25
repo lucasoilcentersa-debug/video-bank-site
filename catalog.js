@@ -16,8 +16,8 @@ function reconcile(seed, files) {
     const brand = folderBrand || 'مواد أخرى';
     const labeled = folders.filter(n => labels[n]).at(-1);
     const filename = f.title.replace(/\.[^.]+$/, '');
-    const type = labels[labeled] || (/\.(mp4|m4v|mov|avi|mkv|webm|wmv|mpeg|3gp)$/i.test(f.title) ? 'video' :
-      /\.(jpe?g|png|gif|webp|heic|avif)$/i.test(f.title) ? 'post':'key');
+    const type = labels[labeled] === 'key' ? 'key' : (/\.(mp4|m4v|mov|avi|mkv|webm|wmv|mpeg|3gp)$/i.test(f.title) ? 'video' :
+      /\.(jpe?g|png|gif|webp|heic|avif)$/i.test(f.title) ? 'post':(labels[labeled] || 'key'));
     const last = folders.at(-1);
     const folderProduct = last && !labels[last] ? last : '';
     const findName = name => [...products.values()].find(p => p.brand === brand && normalize(p.name) === normalize(name));
