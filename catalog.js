@@ -40,8 +40,9 @@ async function refreshCatalog() {
   if (refreshing || document.hidden) return;
   refreshing = true;
   try {
-    const url = 'https://raw.githubusercontent.com/lucasoilcentersa-debug/video-bank-site/main/catalog.json?t='+Math.floor(Date.now()/30000);
-    const r = await fetch(url,{cache:'no-store'});
+    const url = 'https://api.github.com/repos/lucasoilcentersa-debug/video-bank-site/contents/catalog.json?ref=main&t='+Math.floor(Date.now()/30000);
+    let r = await fetch(url,{cache:'no-store',headers:{Accept:'application/vnd.github.raw+json'}});
+    if (!r.ok && !loadedCatalog) r = await fetch('https://raw.githubusercontent.com/lucasoilcentersa-debug/video-bank-site/main/catalog.json',{cache:'no-store'});
     if (!r.ok) throw Error(String(r.status));
     const payload = await r.text();
     if (lastPayload !== payload) {
